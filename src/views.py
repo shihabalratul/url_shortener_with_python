@@ -32,15 +32,19 @@ class UrlShortHost(BaseHTTPRequestHandler):
 def shorten_url():
     while True:
         url = input("Enter a URL to shorten: ")
+        
         path = generate_url()
         short_url = f"http://{HOST}:{PORT}/{path}"
+        
         db = db_con.database_connection()
+        
         if db:
             curr = db.cursor()
+            
             curr.execute(f"INSERT INTO urls VALUES ('{path}','{url}')")
-            data = curr.fetchall()
             db.commit()
-            print(data)
+            
             db.close()
+            
         print(short_url)
             
